@@ -1,4 +1,4 @@
-package com.iotproject.nahin.smart_home_system;
+package com.iotproject.nahin.smart_home_system.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
