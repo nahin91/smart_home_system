@@ -32,7 +32,7 @@ public class DistanceSensor extends ConcurrentCoapResource {
         getAttributes().setObservable();
 
         Timer timer = new Timer();
-        timer.schedule(new ContinuousTask(), 0, 3000);
+        timer.schedule(new ContinuousTask(), 0, 7000);
 
     }
 
