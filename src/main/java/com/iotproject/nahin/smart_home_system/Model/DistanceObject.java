@@ -1,4 +1,4 @@
-package com.iotproject.nahin.smart_home_system;
+package com.iotproject.nahin.smart_home_system.Model;
 
 public class DistanceObject {
 

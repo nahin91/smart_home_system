@@ -1,6 +1,6 @@
 package com.iotproject.nahin.smart_home_system.Controller;
 
-import com.iotproject.nahin.smart_home_system.ResponseDistanceData;
+import com.iotproject.nahin.smart_home_system.Model.ResponseDistanceData;
 import com.iotproject.nahin.smart_home_system.SmartHomeSystemApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

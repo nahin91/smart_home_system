@@ -11,7 +11,7 @@
 
     <script type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-
+    <script type="text/javascript" th:src="@{/js/songs.js}"></script>
 
 </head>
 
@@ -20,32 +20,17 @@
 
     <label>Person appeared: </label> <h1 id="personName"></h1>
     <label>Distance: </label> <h1 id="distance"></h1>
-    <label>Songs: </label> <ul id="songList"></ul>
+    <label>Songs: </label>
+    <ul class="list-group" id="songList">
+        <!--<li class="list-group-item" id="songList"></li>-->
+    </ul>
+
 
 </body>
 
 <script type="application/javascript">
-    function getContiniouslyAllData() {
-        $.ajax({
-            url: '/iot/get-distance',
-            type: "GET",
-            dataType: "xml",
-            contentType: "application/xml",
-            success: function (xmlData) {
-                $(xmlData).find("ResponseDistanceData").each(function () {
-                    var personName = $(this).find('person').text();
-                    $('#personName').html(personName);
-                    var distance = $(this).find('distance').text();
-                    $('#distance').html(distance);
 
-                    //this is a list of songs
-                    var songList = $(this).find('songList');
-                    $('#songList').html(songList);
-                });
-            }
-        });
-    }
-
+    //getContiniouslyAllData();
     setInterval(getContiniouslyAllData, 7000);
 
 </script>
