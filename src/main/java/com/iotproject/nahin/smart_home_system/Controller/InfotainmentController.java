@@ -21,4 +21,7 @@ public class InfotainmentController {
     public ResponseDistanceData getDistance(){
         return SmartHomeSystemApplication.responseData;
     }
+
+    @GetMapping("index")
+    public String index() { return "index"; }
 }

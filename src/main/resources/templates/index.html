@@ -1,32 +1,19 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>IoT-Infotainment</title>
-
-    <link rel="stylesheet" th:href="@{/static/css/card-style.css}"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrapfiles/bootstrap.min.css}"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" th:href="@{/css/index-style.css}"/>
     <link rel="stylesheet" th:href="@{/css/card-style.css}"/>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
-    <script type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-    <script type="text/javascript" th:src="@{/js/songs.js}"></script>
 
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
-
 <body>
-
-    <!--<label>Person appeared: </label> <h1 id="personName"></h1>
-    <label>Distance: </label> <h1 id="distance"></h1>
-    <label>Songs: </label>-->
-    <!--<ul class="list-group" id="songList">
-        &lt;!&ndash;<li class="list-group-item" id="songList"></li>&ndash;&gt;
-    </ul>-->
-
     <div id="wrapper" class="active">
         <!-- Sidebar -->
         <!-- Sidebar -->
@@ -45,6 +32,7 @@
                 </ul>-->
             </ul>
         </div>
+
         <!-- Page content -->
         <div id="page-content-wrapper">
             <!-- Keep all page content within the page-content inset div! -->
@@ -56,38 +44,34 @@
                     </div>
                 </div>
 
-                <div class="row col-md-9" id="cardSongs" style="margin-left: 2%">
-                    <!--<div class="col-md-3 col-lg-3">
-                        &lt;!&ndash;<div class="card " style="background-color: crimson; height: 210px; margin-left: 15px">
-                        </div>&ndash;&gt;
-                    </div>-->
+                <!--<div class="row col-sm-2 col-md-2 col-lg-2" style="background-color: #b1dfbb; margin-left: 15px; margin-right: 15px; height: 250px">
+                    <div class="card" style="background-color: crimson; height: 210px">
+                        <div class="card-inner">
+                            <h2>Title</h2>
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="card col-md-2" style="background-color: crimson; height: 210px; margin-left: 15px">
+                    <div class="card-inner" style="text-align: center">
+                        <h2>Title</h2>
+                    </div>
                 </div>
-
-
-                <div class="row col-md-3">
-                        <ul class="list-group border-0" id="songList"></ul>
+                <div class="card col-md-2" style="background-color: crimson; height: 210px">
+                    <div class="card-inner" style="text-align: center">
+                        <h2>Title</h2>
+                    </div>
                 </div>
-
-
 
             </div>
         </div>
+
     </div>
-
-
 </body>
-
-<script type="application/javascript">
-
-    //getContiniouslyAllData();
-    setInterval(getContiniouslyAllData, 7000);
-
-</script>
 <script>
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("active");
     });
 </script>
-
 </html>
