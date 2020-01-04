@@ -5,6 +5,7 @@ public class ResponseDistanceData {
     private String distance;
     private String person;
     private String[] songList;
+    private String[] guestList;
 
     public String[] getSongList() {
         return songList;
@@ -28,5 +29,13 @@ public class ResponseDistanceData {
 
     public void setPerson(String person) {
         this.person = person;
+    }
+
+    public String[] getGuestList() {
+        return guestList;
+    }
+
+    public void setGuestList(String[] guestList) {
+        this.guestList = guestList;
     }
 }

@@ -13,10 +13,6 @@ function getContiniouslyAllData() {
                 $('#distance').html(distance);
 
                 var songsList = $(this).find('songList');
-                console.log(songsList.length);
-                console.log(songsList.text());
-                //$('#songID').html(songsList);
-                $("#songList").empty();
                 $("#cardSongs").empty();
                 $.each(songsList, function(index, value){
                     if(index!==0){
@@ -28,6 +24,18 @@ function getContiniouslyAllData() {
                             '<div class="card-inner" style="text-align: -moz-center" id='+songId+'>'+value.innerHTML+'</div></div>';
                         $("#cardSongs" ).append(cardSong);
                         console.log(index)
+                    }
+
+                });
+
+                var guestList = $(this).find('guestList');
+                $("#guestList").empty();
+                $.each(guestList, function(index, value){
+                    if(index!==0){
+                        var songId="songId"+index;
+                        var guestName= '<li class="list-group-item" style="border: none" id='+songId+'>'+value.innerHTML+'</li>';
+                        $("#guestList" ).append(guestName);
+
                     }
 
                 });

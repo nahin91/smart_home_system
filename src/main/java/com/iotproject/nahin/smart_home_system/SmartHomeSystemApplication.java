@@ -19,7 +19,6 @@ public class SmartHomeSystemApplication {
     public static ResponseDistanceData responseData;
     public static Map<String, String[]> songPriorityMapping;
     public static Map<String, Integer> finalSortedSongs;
-    public static String currentPerson = null;
     public static ObjectMapper objectMapper;
 
     public static void main(String[] args) {
@@ -42,6 +41,7 @@ public class SmartHomeSystemApplication {
         CoapObserveRelation relation = coapClient.observe(new CoapHandler() {
             @Override
             public void onLoad(CoapResponse coapResponse) {
+
                 String jsonFromDistanceSensor = coapResponse.getResponseText();
                 System.out.println(jsonFromDistanceSensor);
 
@@ -81,85 +81,18 @@ public class SmartHomeSystemApplication {
                     Collection<String> selectedSongs = sortedList.keySet();
                     String[] selectedSongList = selectedSongs.toArray(new String[selectedSongs.size()]);
 
+                    //enlisting current guests
+                    Collection<String> currentGuests = songPriorityMapping.keySet();
+                    String[] guestList = currentGuests.toArray(new String[currentGuests.size()]);
+
+
                     responseData.setPerson(distanceObject.getPerson());
                     responseData.setDistance(distanceObject.getDistance());
                     responseData.setSongList(selectedSongList);
+                    responseData.setGuestList(guestList);
 
                     System.out.println(finalSortedSongs.toString());
                     System.out.println("size of array: "+selectedSongList.length);
-
-                    /*if (Integer.valueOf(distanceObject.getDistance()) < 11) {
-
-                        String songs[] = distanceObject.getSongList();
-
-                        for (int i = 0; i < songs.length; i++) {
-                            String songName = songs[i];
-                            if(songPriorityMapping.containsKey(songName) == false) {
-                                songPriorityMapping.put(songName, 1);
-                            } else {
-                                songPriorityMapping.put(songName, songPriorityMapping.get(songName) + 1);
-                            }
-                        }
-                    } else {
-                        String songs[] = distanceObject.getSongList();
-                        for (int i = 0; i < songs.length; i++) {
-                            String songName = songs[i];
-                            if(songPriorityMapping.containsKey(songName) == true) {
-                                songPriorityMapping.put(songName, songPriorityMapping.get(songName) - 1);
-                            }
-
-                            if(songPriorityMapping.containsKey(songName) && songPriorityMapping.get(songName) == 0) {
-                                songPriorityMapping.remove(songName);
-                            }
-                        }
-                    }*/
-
-                    //System.out.println(distanceObject.getPerson() + " = " + songPriorityMapping.toString());
-
-                    /*creating most common song list from all guests.*/
-                    /*for (int i = 0; i < distanceObject.getSongList().length; i++) {
-
-                     *//*checking if the distance and applying condition*//*
-                        if (Integer.valueOf(distanceObject.getDistance()) < 11) {
-                            if (Integer.valueOf(distanceObject.getDistance()) < 11 && !(currentPerson == distanceObject.getPerson()) && songPriorityMapping.containsKey(distanceObject.getSongList()[i])) {
-                                *//*assigning priority to the songs and putting in the play list*//*
-                                int newPriority = songPriorityMapping.get(distanceObject.getSongList()[i]) + 1;
-                                songPriorityMapping.put(distanceObject.getSongList()[i], newPriority);
-                            } else {
-                                songPriorityMapping.putIfAbsent(distanceObject.getSongList()[i], 0);
-                            }
-                        } else {
-                            int newPriority = songPriorityMapping.get(distanceObject.getSongList()[i]) - 1;
-                            songPriorityMapping.put(distanceObject.getSongList()[i], newPriority);
-                        }
-                    }*/
-                    //currentPerson = distanceObject.getPerson();
-                    /*sorting playlist based on priority value*/
-                    //Map<String, Integer> sortedList = sortByReverseOrder(songPriorityMapping);
-
-                    /* creating array of songs based on priority from sorted playlist*/
-                    //Collection<String> selectedSongs = sortedList.keySet();
-                    //String[] selectedSongList = selectedSongs.toArray(new String[selectedSongs.size()]);
-
-                    /*responseData.setPerson(currentPerson);
-                    responseData.setDistance(distanceObject.getDistance());
-                    responseData.setSongList(selectedSongList);
-
-
-                    ConcurrentCoapResource coapResource = new ConcurrentCoapResource("actuator") {
-                        @Override
-                        public void handleGET(CoapExchange exchange) {
-                            try {
-                                String jsonToMusicActuator = objectMapper.writeValueAsString(selectedSongList);
-                                exchange.respond(jsonToMusicActuator);
-                            } catch (JsonProcessingException e) {
-                            }
-                        }
-                    };*/
-
-                    /*testing values*/
-                    //System.out.println("current song priorities: " + songPriorityMapping);
-                    //System.out.println("data from coap sensor = " + jsonFromDistanceSensor);
 
                 } catch (Exception e) {
                     e.printStackTrace();
