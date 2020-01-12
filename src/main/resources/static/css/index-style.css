@@ -147,3 +147,11 @@
         transition: all .4s ease 0s;
     }
 }
+.div-sticky{
+    position:-webkit-sticky;
+    position:sticky;
+    bottom:0;
+    border:solid 1px;
+    border-color:red;
+    height: 50px;
+}

@@ -1,57 +1,37 @@
 package com.iotproject.nahin.smart_home_system.Actuators;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iotproject.nahin.smart_home_system.Model.DistanceObject;
-import com.iotproject.nahin.smart_home_system.Model.ResponseDistanceData;
-import com.iotproject.nahin.smart_home_system.Sensors.DistanceSensor;
-import com.iotproject.nahin.smart_home_system.SmartHomeSystemApplication;
-import jdk.internal.org.objectweb.asm.Handle;
-import org.eclipse.californium.core.*;
+import com.iotproject.nahin.smart_home_system.Model.MusicRequest;
+import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.ConcurrentCoapResource;
-import org.eclipse.californium.core.server.resources.Resource;
 
-import java.util.List;
-import java.util.Map;
+public class MusicActuator extends ConcurrentCoapResource {
 
-public class MusicActuator{
+    MusicRequest music = null;
 
-    private static ResponseDistanceData response;
-    public static ObjectMapper objectMapper;
-    public static String[] songList;
+    public MusicActuator(String name) {
+        super(name);
+        music = new MusicRequest();
+    }
 
-    public static void main(String[] args){
+    /*converts the object data into json format*/
+    @Override
+    public void handlePOST(CoapExchange exchange) {
+        exchange.accept();
 
-        objectMapper = new ObjectMapper();
+        try {
+            String jsonRequest = exchange.getRequestText();
+            ObjectMapper objectMapper = new ObjectMapper();
 
-        /*coap server configuration.*/
-        //CoapServer coapServer = new CoapServer(8086);
-        //coapServer.add((new SmartHomeSystemApplication()));
-        //coapServer.start();
+            MusicRequest request = objectMapper.readValue(jsonRequest, MusicRequest.class);
+            music.currentSong = request.currentSong;
 
-        /*client config with the corresponding server*/
-        CoapClient coapClient = new CoapClient("coap://localhost:8086/distance");
-
-        CoapObserveRelation relation = coapClient.observe(new CoapHandler() {
-            @Override
-            public void onLoad(CoapResponse coapResponse) {
-                String jsonFromIoT = coapResponse.getResponseText();
-                System.out.println(jsonFromIoT);
-                /*try {
-                    response = objectMapper.readValue(jsonFromIoT, ResponseDistanceData.class);
-                    for (int i=0; i < response.getSongList().length; i++)
-                        System.out.println("this is music actuator: "+ response.getSongList()[i]);
-
-                } catch (JsonProcessingException e) {}*/
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
-
+            String jsonString = objectMapper.writeValueAsString(music);
+            exchange.respond(CoAP.ResponseCode.CREATED, jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

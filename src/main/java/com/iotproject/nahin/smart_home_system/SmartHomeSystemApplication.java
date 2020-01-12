@@ -1,14 +1,20 @@
 package com.iotproject.nahin.smart_home_system;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iotproject.nahin.smart_home_system.Actuators.MusicActuator;
 import com.iotproject.nahin.smart_home_system.Model.DistanceObject;
+import com.iotproject.nahin.smart_home_system.Model.MusicRequest;
 import com.iotproject.nahin.smart_home_system.Model.ResponseDistanceData;
 import com.iotproject.nahin.smart_home_system.Sensors.DistanceSensor;
 import org.eclipse.californium.core.*;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
+import org.eclipse.californium.elements.exception.ConnectorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,8 +41,13 @@ public class SmartHomeSystemApplication {
         coapServer.add(new DistanceSensor("distance"));
         coapServer.start();
 
+        CoapServer musicActuatorServer = new CoapServer(5684);
+        musicActuatorServer.add(new MusicActuator("music"));
+        musicActuatorServer.start();
+
         /*client config with the corresponding server*/
         CoapClient coapClient = new CoapClient("coap://localhost:5683/distance");
+        CoapClient musicActuatorClient = new CoapClient("coap://localhost:5684/music");
 
         CoapObserveRelation relation = coapClient.observe(new CoapHandler() {
             @Override
@@ -85,6 +96,31 @@ public class SmartHomeSystemApplication {
                     Collection<String> currentGuests = songPriorityMapping.keySet();
                     String[] guestList = currentGuests.toArray(new String[currentGuests.size()]);
 
+                    //call to music actuator to play song
+                    if(selectedSongList.length > 0) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MusicRequest musicRequest = new MusicRequest();
+                                musicRequest.currentSong = selectedSongList[0];
+                                String jsonRequest = null;
+                                try {
+                                    jsonRequest = objectMapper.writeValueAsString(musicRequest);
+                                } catch (JsonProcessingException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    musicActuatorClient.post(jsonRequest, MediaTypeRegistry.APPLICATION_JSON);
+                                } catch (ConnectorException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                responseData.setCurrentSong(selectedSongList[0]);
+                            }
+                        }).start();
+                    }
 
                     responseData.setPerson(distanceObject.getPerson());
                     responseData.setDistance(distanceObject.getDistance());

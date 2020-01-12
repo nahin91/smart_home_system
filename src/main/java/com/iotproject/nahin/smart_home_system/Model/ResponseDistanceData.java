@@ -7,6 +7,16 @@ public class ResponseDistanceData {
     private String[] songList;
     private String[] guestList;
 
+    public String getCurrentSong() {
+        return currentSong;
+    }
+
+    public void setCurrentSong(String currentSong) {
+        this.currentSong = currentSong;
+    }
+
+    private String currentSong;
+
     public String[] getSongList() {
         return songList;
     }

@@ -11,11 +11,16 @@
     <link rel="stylesheet" th:href="@{/css/index-style.css}"/>
     <link rel="stylesheet" th:href="@{/css/card-style.css}"/>
     <link rel="stylesheet" th:href="@{/fontawesome-free-5.12.0-web/css/font-awesome.min.css}"/>
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
     <script type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
     <script type="text/javascript" th:src="@{/js/songs.js}"></script>
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 </head>
 
 <body>
@@ -28,7 +33,6 @@
     </ul>-->
 
     <div id="wrapper" class="active">
-        <!-- Sidebar -->
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul id="sidebar_menu" class="sidebar-nav">
@@ -55,13 +59,31 @@
                         <!--<p class="well lead">An Experiment using the sidebar (<a href="http://animeshmanglik.name">animeshmanglik.name</a>)</p>-->
                     </div>
                 </div>
-
+                <div class="row col-12">
+                    <p>Party Mood <input type="checkbox" id="partyMood" data-toggle="toggle" data-onstyle="success"></p>
+                </div>
                 <div class="row">
                     <div class="col-md-9 col-lg-9" id="cardSongs" style="margin-left: 2%">
+
                     </div>
 
-                    <div class="col-md-2 col-lg-2 border border-warning" >
+                    <div class="col-md-12 col-lg-12" id="partyInfo"
+                         style="background-color: #1c7430; float: left; height: 80vh">Click switch button to on party mood</div>
+
+                    <div class="col-md-2 col-lg-2 border-left" style="display: none;">
                         <ul class="list-group" id="guestList"></ul>
+                    </div>
+                </div>
+                <div class="row div-sticky" style="position: fixed; bottom: 0; width: 100%">
+                    <div class="col-md-12 well lead ">
+                        <div class="d-none d-lg-block col-lg-7" style="text-align: center" id="currentSongName">current song</div>
+                        <div class="col-lg-5">
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-step-backward text-secondary"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-pause text-secondary"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-step-forward text-secondary"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-random text-secondary"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-volume-up text-secondary"></i></span></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,7 +96,24 @@
 <script type="application/javascript">
 
     //getContiniouslyAllData();
-    setInterval(getContiniouslyAllData, 7000);
+
+    var parnyMood = false;
+    var interval = null;
+
+    $('#partyMood').change(function() {
+
+        if(this.checked) {
+            interval = setInterval(getContiniouslyAllData, 7000);
+            $('#guestList').parent().show();
+            $('#partyInfo').hide();
+        }
+        else {
+            clearInterval(interval);
+            $('#cardSongs').html('');
+            $('#partyInfo').show();
+            $('#guestList').parent().hide();
+        }
+    });
 
 </script>
 <script>
