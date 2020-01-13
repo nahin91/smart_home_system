@@ -6,32 +6,26 @@
 
     <title>IoT-Infotainment</title>
 
-    <link rel="stylesheet" th:href="@{/static/css/card-style.css}"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrapfiles/bootstrap.min.css}"/>
+    <!--<link rel="stylesheet" th:href="@{/static/css/card-style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrapfiles/bootstrap.min.css}"/>-->
     <link rel="stylesheet" th:href="@{/css/index-style.css}"/>
     <link rel="stylesheet" th:href="@{/css/card-style.css}"/>
     <link rel="stylesheet" th:href="@{/fontawesome-free-5.12.0-web/css/font-awesome.min.css}"/>
 
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">-->
 
     <script type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
     <script type="text/javascript" th:src="@{/js/songs.js}"></script>
 
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 </head>
 
 <body>
-
-    <!--<label>Person appeared: </label> <h1 id="personName"></h1>
-    <label>Distance: </label> <h1 id="distance"></h1>
-    <label>Songs: </label>-->
-    <!--<ul class="list-group" id="songList">
-        &lt;!&ndash;<li class="list-group-item" id="songList"></li>&ndash;&gt;
-    </ul>-->
-
     <div id="wrapper" class="active">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -39,14 +33,8 @@
                 <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-home"></span></a></li>
             </ul>
             <ul class="sidebar-nav" id="sidebar">
-                <li><a class="fa fa-ship" aria-hidden="true">Music</a></li>
-                <li><a>Mirror<span class="sub_icon glyphicon glyphicon-fullscreen"></span></a></li>
-                <li><a>Mirror<span class="sub_icon glyphicon glyphicon-film"></span></a></li>
-
-                <!--<ul class="sidebar-nav" id="sub_icon glyphicon sidebar">
-                    <li><a>link1<span class="sub_icon glyphicon glyphicon-music"></span></a></li>
-                    <li><a>link2<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
-                </ul>-->
+                <li><a href="/iot/home">Music<span class="sub_icon glyphicon glyphicon-headphones"></span></a></li>
+                <li><a href="/iot/index">Movies<span class="sub_icon glyphicon glyphicon-film"></span></a></li>
             </ul>
         </div>
         <!-- Page content -->
@@ -56,33 +44,43 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="well lead">Smart Home Infotainment</p>
-                        <!--<p class="well lead">An Experiment using the sidebar (<a href="http://animeshmanglik.name">animeshmanglik.name</a>)</p>-->
                     </div>
-                </div>
-                <div class="row col-12">
-                    <p>Party Mood <input type="checkbox" id="partyMood" data-toggle="toggle" data-onstyle="success"></p>
                 </div>
                 <div class="row">
-                    <div class="col-md-9 col-lg-9" id="cardSongs" style="margin-left: 2%">
+                    <div class="col-md-12">
+                        <p style="margin-left: 2%">Party Mode <input type="checkbox" id="partyMood" data-toggle="toggle" data-onstyle="success"></p>
 
-                    </div>
-
-                    <div class="col-md-12 col-lg-12" id="partyInfo"
-                         style="background-color: #1c7430; float: left; height: 80vh">Click switch button to on party mood</div>
-
-                    <div class="col-md-2 col-lg-2 border-left" style="display: none;">
-                        <ul class="list-group" id="guestList"></ul>
                     </div>
                 </div>
-                <div class="row div-sticky" style="position: fixed; bottom: 0; width: 100%">
-                    <div class="col-md-12 well lead ">
-                        <div class="d-none d-lg-block col-lg-7" style="text-align: center" id="currentSongName">current song</div>
-                        <div class="col-lg-5">
-                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-step-backward text-secondary"></i></span></a>
-                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-pause text-secondary"></i></span></a>
-                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-step-forward text-secondary"></i></span></a>
-                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-random text-secondary"></i></span></a>
-                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-volume-up text-secondary"></i></span></a>
+                <div class="row">
+                    <div class="col-md-9 col-lg-9" id="cardSongs" style="margin-left: 2%;">
+
+                    </div>
+
+                    <div class="col-md-12 col-lg-12 text-center" id="partyInfo"
+                         style="background-color: #e6e8e7; float: left; height: 80vh">
+                        <h3 style="margin: 0;  position: absolute; top: 50%;  left: 50%;
+                            -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">Turn on the Party Mode!</h3>
+                    </div>
+
+                    <div class="col-md-2 col-lg-2 border-left divider-vertical" style="display: none; justify-content: center; margin-right: 0">
+                        <h4>Connected Guests</h4>
+                        <ul class="list-group" id="guestList">
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row " style="position: fixed; bottom: 0; width: 90%">
+                    <div class="col-lg-12 well lead ">
+                        <div class="col-sm-0 col-lg-7" style="text-align: center" id="currentSongName">current song</div>
+                        <div class="col-sm-12 col-lg-5" style="text-align: center">
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-step-backward" style="color: gray;margin-left: 3px; margin-right: 3px"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-pause" style="color: gray;margin-left: 3px; margin-right: 3px"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-step-forward" style="color: gray;margin-left: 3px; margin-right: 3px"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-random" style="color: gray;margin-left: 3px; margin-right: 3px"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-volume-up" style="color: gray;margin-left: 3px; margin-right: 3px"></i></span></a>
+                            <a class="col-1" href="#"><span><i class="glyphicon glyphicon-volume-up" style="color: gray;margin-left: 3px; margin-right: 3px"></i></span></a>
                         </div>
                     </div>
                 </div>

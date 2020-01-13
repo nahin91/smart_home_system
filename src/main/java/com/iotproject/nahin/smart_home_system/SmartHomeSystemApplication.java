@@ -46,10 +46,10 @@ public class SmartHomeSystemApplication {
         musicActuatorServer.start();
 
         /*client config with the corresponding server*/
-        CoapClient coapClient = new CoapClient("coap://localhost:5683/distance");
+        CoapClient distantSensorClient = new CoapClient("coap://localhost:5683/distance");
         CoapClient musicActuatorClient = new CoapClient("coap://localhost:5684/music");
 
-        CoapObserveRelation relation = coapClient.observe(new CoapHandler() {
+        CoapObserveRelation relation = distantSensorClient.observe(new CoapHandler() {
             @Override
             public void onLoad(CoapResponse coapResponse) {
 
@@ -88,11 +88,11 @@ public class SmartHomeSystemApplication {
 
                     Map<String, Integer> sortedList = sortByReverseOrder(finalSortedSongs);
 
-                    /* creating array of songs based on priority from sorted playlist*/
+                    /*  array of songs based on priority from sorted playlist*/
                     Collection<String> selectedSongs = sortedList.keySet();
                     String[] selectedSongList = selectedSongs.toArray(new String[selectedSongs.size()]);
 
-                    //enlisting current guests
+                    // array of current guests
                     Collection<String> currentGuests = songPriorityMapping.keySet();
                     String[] guestList = currentGuests.toArray(new String[currentGuests.size()]);
 

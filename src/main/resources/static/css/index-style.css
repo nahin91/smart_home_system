@@ -152,6 +152,11 @@
     position:sticky;
     bottom:0;
     border:solid 1px;
-    border-color:red;
     height: 50px;
+}
+.divider-vertical {
+    height: 60vh;
+    margin: 0 9px;
+    border-left: 1px solid #dadada;
+    border-right: 1px solid #ffffff;
 }
