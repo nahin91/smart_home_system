@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("iot/")
 public class InfotainmentController {
 
-    @GetMapping("home")
+    @GetMapping("infotainment")
     public String home(){
         return "iotHome";
     }

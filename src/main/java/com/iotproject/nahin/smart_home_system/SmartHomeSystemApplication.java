@@ -59,7 +59,7 @@ public class SmartHomeSystemApplication {
                 try {
                     /*json-to-object mapper*/
                     DistanceObject distanceObject = objectMapper.readValue(jsonFromDistanceSensor, DistanceObject.class);
-
+                    /*checking distance and putting in the list*/
                     if (Integer.valueOf(distanceObject.getDistance()) < 11) {
                         if (sensorData.containsKey(distanceObject.getPerson()) == false) {
                             sensorData.put(distanceObject.getPerson(), distanceObject.getSongList());
