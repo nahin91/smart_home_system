@@ -15,15 +15,15 @@ public class DistanceSensor extends ConcurrentCoapResource {
 
     public static String[] people = {"nahin", "pretom", "akib", "limon", "rony"};
 
-    public static String[] listOfNahinSong = {"Numb - Linkin Park", "Your Sky - Coldplay", "Take Me Home, Country Roads - John Denver ♥",
+    public static String[] songListOfNahin = {"Numb - Linkin Park", "Your Sky - Coldplay", "Take Me Home, Country Roads - John Denver ♥",
             "Rockabye - Clean Bandit", "Annie's Song - John Denver ♥","Miftah Zaman- Obelai"};
-    public static String[] listOfPretomSong = {"Numb - Linkin Park", "Viva la Vida - Coldplay", "Rockabye - Clean Bandit",
+    public static String[] songListOfPretom = {"Numb - Linkin Park", "Viva la Vida - Coldplay", "Rockabye - Clean Bandit",
             "Your Sky - Coldplay", "Wavin' Flag - K'NAAN (FIFA 2010)"};
-    public static String[] listOfAkibSong = {"Annie's Song - John Denver ♥", "Rockabye - Clean Bandit", "Sing Nachtigall Sing - Evelyn Künneke",
+    public static String[] songListOfAkib = {"Annie's Song - John Denver ♥", "Rockabye - Clean Bandit", "Sing Nachtigall Sing - Evelyn Künneke",
             "Numb - Linkin Park", "Revolverheld feat. Marta Jandová - Halt Dich an mir fest"};
-    public static String[] listOfLimonSong = {"Take Me Home, Country Roads - John Denver ♥", "Panchi. Jal featuring Quratulain Balouch Coke Studio",
+    public static String[] songListOfLimon = {"Take Me Home, Country Roads - John Denver ♥", "Panchi. Jal featuring Quratulain Balouch Coke Studio",
             "Sing Nachtigall Sing - Evelyn Künneke", "Revolverheld feat. Marta Jandová - Halt Dich an mir fest"};
-    public static String[] listOfRonySong = {"Sing Nachtigall Sing - Evelyn Künneke", "Numb - Linkin Park", "Revolverheld feat. Marta Jandová - Halt Dich an mir fest",
+    public static String[] songListOfRony = {"Sing Nachtigall Sing - Evelyn Künneke", "Numb - Linkin Park", "Revolverheld feat. Marta Jandová - Halt Dich an mir fest",
             "Viva la Vida - Coldplay", "Annie's Song - John Denver ♥"};
 
 
@@ -49,23 +49,23 @@ public class DistanceSensor extends ConcurrentCoapResource {
             switch (person) {
                 case "nahin":
                     distanceObject.setPerson(person);
-                    distanceObject.setSongList(listOfNahinSong);
+                    distanceObject.setSongList(songListOfNahin);
                     break;
                 case "pretom":
                     distanceObject.setPerson(person);
-                    distanceObject.setSongList(listOfPretomSong);
+                    distanceObject.setSongList(songListOfPretom);
                     break;
                 case "akib":
                     distanceObject.setPerson(person);
-                    distanceObject.setSongList(listOfAkibSong);
+                    distanceObject.setSongList(songListOfAkib);
                     break;
                 case "limon":
                     distanceObject.setPerson(person);
-                    distanceObject.setSongList(listOfLimonSong);
+                    distanceObject.setSongList(songListOfLimon);
                     break;
                 case "rony":
                     distanceObject.setPerson(person);
-                    distanceObject.setSongList(listOfRonySong);
+                    distanceObject.setSongList(songListOfRony);
                     break;
             }
 
@@ -78,10 +78,6 @@ public class DistanceSensor extends ConcurrentCoapResource {
 
         int randomIndex = new Random().nextInt(array.length);
         String personName = array[randomIndex];
-
-        /*if(alreadyTakenPerson.contains(personName) == false && Integer.valueOf(distanceObject.getDistance()) > 0) {
-
-        }*/
 
         return personName;
     }

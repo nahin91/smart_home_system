@@ -23,8 +23,8 @@ public class SmartHomeSystemApplication {
 
     @Autowired
     public static ResponseDistanceData responseData;
-    public static Map<String, String[]> songPriorityMapping;
-    public static Map<String, Integer> finalSortedSongs;
+    public static Map<String, String[]> sensorData;
+    public static Map<String, Integer> iotPlayList;
     public static ObjectMapper objectMapper;
 
     public static void main(String[] args) {
@@ -32,14 +32,14 @@ public class SmartHomeSystemApplication {
 
         /*initialized once but inner properties gets changed on time being.*/
         responseData = new ResponseDistanceData();
-        songPriorityMapping = new HashMap<>();
-        finalSortedSongs = new HashMap<>();
+        sensorData = new HashMap<>();
+        iotPlayList = new HashMap<>();
         objectMapper = new ObjectMapper();
 
         /*coap server configuration.*/
-        CoapServer coapServer = new CoapServer(5683);
-        coapServer.add(new DistanceSensor("distance"));
-        coapServer.start();
+        CoapServer distanceSensorServer = new CoapServer(5683);
+        distanceSensorServer.add(new DistanceSensor("distance"));
+        distanceSensorServer.start();
 
         CoapServer musicActuatorServer = new CoapServer(5684);
         musicActuatorServer.add(new MusicActuator("music"));
@@ -57,52 +57,51 @@ public class SmartHomeSystemApplication {
                 System.out.println(jsonFromDistanceSensor);
 
                 try {
-                    /*json-to-object-to-xml mapper*/
+                    /*json-to-object mapper*/
                     DistanceObject distanceObject = objectMapper.readValue(jsonFromDistanceSensor, DistanceObject.class);
-                    //System.out.println(jsonFromDistanceSensor);
 
                     if (Integer.valueOf(distanceObject.getDistance()) < 11) {
-                        if (songPriorityMapping.containsKey(distanceObject.getPerson()) == false) {
-                            songPriorityMapping.put(distanceObject.getPerson(), distanceObject.getSongList());
+                        if (sensorData.containsKey(distanceObject.getPerson()) == false) {
+                            sensorData.put(distanceObject.getPerson(), distanceObject.getSongList());
                         }
                     } else {
-                        if (songPriorityMapping.containsKey(distanceObject.getPerson()) == true) {
-                            songPriorityMapping.remove(distanceObject.getPerson());
+                        if (sensorData.containsKey(distanceObject.getPerson()) == true) {
+                            sensorData.remove(distanceObject.getPerson());
                         }
                     }
 
-                    finalSortedSongs = new HashMap<>();
-                    for (String key : songPriorityMapping.keySet()) {
+                    iotPlayList = new HashMap<>();
+                    for (String key : sensorData.keySet()) {
 
-                        String songs[] = songPriorityMapping.get(key);
+                        String songs[] = sensorData.get(key);
 
                         for (int i = 0; i < songs.length; i++) {
                             String songName = songs[i];
-                            if (finalSortedSongs.containsKey(songName) == false) {
-                                finalSortedSongs.put(songName, 1);
+                            if (iotPlayList.containsKey(songName) == false) {
+                                iotPlayList.put(songName, 1);
                             } else {
-                                finalSortedSongs.put(songName, finalSortedSongs.get(songName) + 1);
+                                iotPlayList.put(songName, iotPlayList.get(songName) + 1);
                             }
                         }
                     }
 
-                    Map<String, Integer> sortedList = sortByReverseOrder(finalSortedSongs);
+                    Map<String, Integer> sortedIoTPlayList = sortByReverseOrder(iotPlayList);
 
                     /*  array of songs based on priority from sorted playlist*/
-                    Collection<String> selectedSongs = sortedList.keySet();
-                    String[] selectedSongList = selectedSongs.toArray(new String[selectedSongs.size()]);
+                    Collection<String> finalSongCollection = sortedIoTPlayList.keySet();
+                    String[] finalPlayList = finalSongCollection.toArray(new String[finalSongCollection.size()]);
 
                     // array of current guests
-                    Collection<String> currentGuests = songPriorityMapping.keySet();
+                    Collection<String> currentGuests = sensorData.keySet();
                     String[] guestList = currentGuests.toArray(new String[currentGuests.size()]);
 
                     //call to music actuator to play song
-                    if(selectedSongList.length > 0) {
+                    if(finalPlayList.length > 0) {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 MusicRequest musicRequest = new MusicRequest();
-                                musicRequest.currentSong = selectedSongList[0];
+                                musicRequest.currentSong = finalPlayList[0];
                                 String jsonRequest = null;
                                 try {
                                     jsonRequest = objectMapper.writeValueAsString(musicRequest);
@@ -117,18 +116,18 @@ public class SmartHomeSystemApplication {
                                     e.printStackTrace();
                                 }
 
-                                responseData.setCurrentSong(selectedSongList[0]);
+                                responseData.setCurrentSong(finalPlayList[0]);
                             }
                         }).start();
                     }
 
                     responseData.setPerson(distanceObject.getPerson());
                     responseData.setDistance(distanceObject.getDistance());
-                    responseData.setSongList(selectedSongList);
+                    responseData.setSongList(finalPlayList);
                     responseData.setGuestList(guestList);
 
-                    System.out.println(finalSortedSongs.toString());
-                    System.out.println("size of array: "+selectedSongList.length);
+                    System.out.println(iotPlayList.toString());
+                    System.out.println("size of array: "+finalPlayList.length);
 
                 } catch (Exception e) {
                     e.printStackTrace();
