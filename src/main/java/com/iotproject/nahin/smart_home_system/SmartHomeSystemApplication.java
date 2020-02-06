@@ -126,8 +126,8 @@ public class SmartHomeSystemApplication {
                     responseData.setSongList(finalPlayList);
                     responseData.setGuestList(guestList);
 
-                    System.out.println(iotPlayList.toString());
-                    System.out.println("size of array: "+finalPlayList.length);
+                    //System.out.println(iotPlayList.toString());
+                    //System.out.println("size of array: "+finalPlayList.length);
 
                 } catch (Exception e) {
                     e.printStackTrace();

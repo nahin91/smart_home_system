@@ -3,8 +3,10 @@ package com.iotproject.nahin.smart_home_system.Actuators;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iotproject.nahin.smart_home_system.Model.MusicRequest;
 import org.eclipse.californium.core.coap.CoAP;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.ConcurrentCoapResource;
+import org.json.JSONObject;
 
 public class MusicActuator extends ConcurrentCoapResource {
 
@@ -28,7 +30,9 @@ public class MusicActuator extends ConcurrentCoapResource {
             music.currentSong = request.currentSong;
 
             String jsonString = objectMapper.writeValueAsString(music);
-            exchange.respond(CoAP.ResponseCode.CREATED, jsonString);
+
+            JSONObject json = new JSONObject(jsonString);
+            exchange.respond(CoAP.ResponseCode.CREATED, json.toString(), MediaTypeRegistry.APPLICATION_JSON);
         } catch (Exception e) {
             e.printStackTrace();
         }

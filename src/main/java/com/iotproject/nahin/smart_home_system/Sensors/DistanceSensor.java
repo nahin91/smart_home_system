@@ -3,8 +3,10 @@ package com.iotproject.nahin.smart_home_system.Sensors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iotproject.nahin.smart_home_system.Model.DistanceObject;
 import org.eclipse.californium.core.coap.CoAP;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.ConcurrentCoapResource;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -92,8 +94,11 @@ public class DistanceSensor extends ConcurrentCoapResource {
     public void handleGET(CoapExchange exchange) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            String jsonString = objectMapper.writeValueAsString(distanceObject);
-            exchange.respond(jsonString);
+            String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(distanceObject);
+
+            JSONObject json = new JSONObject(jsonString);
+
+            exchange.respond(CoAP.ResponseCode.CONTENT,json.toString(), MediaTypeRegistry.APPLICATION_JSON);
         } catch (Exception e) {
         }
     }
